@@ -1,16 +1,19 @@
 import { useContext } from "react";
 import { RecipeContext } from "../context/RecipeContext";
+import RecipeCard from "../components/RecipeCard";
 
 const Recipes = () => {
   const { data } = useContext(RecipeContext);
 
   const renderRecipes = data.map((recipe) => (
-    <div key={recipe.id}>
-      <h1>{recipe.title}</h1>
-    </div>
+    <RecipeCard recipe={recipe} key={recipe.id} />
   ));
 
-  return <div>{renderRecipes}</div>;
+  return (
+    <div className="flex flex-wrap">
+      {data.length > 0 ? renderRecipes : "No recipes found!"}
+    </div>
+  );
 };
 
 export default Recipes;
