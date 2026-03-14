@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { RecipeContext } from "../context/RecipeContext";
 import { useForm } from "react-hook-form";
@@ -10,18 +10,19 @@ const SingleRecipe = () => {
   const params = useParams();
   const recipe = data.find((recipe) => params.id == recipe.id);
 
-  const { register, handleSubmit, reset } = useForm({defaultValues:{
-    title: recipe.title,
-    image: recipe.image,
-    chef: recipe.chef,
-    desc: recipe.desc,
-    imgr: recipe.ingr,
-    inst: recipe.inst,
-    category: recipe.category
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      title: recipe.title,
+      image: recipe.image,
+      chef: recipe.chef,
+      desc: recipe.desc,
+      imgr: recipe.ingr,
+      inst: recipe.inst,
+      category: recipe.category,
+    },
+  });
 
-  }});
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const SubmitHandler = (recipe) => {
     const index = data.findIndex((r) => params.id == r.id);
@@ -33,10 +34,18 @@ const SingleRecipe = () => {
 
   const deleteHandler = () => {
     const filerData = data.filter((r) => r.id != params.id);
-    setData(filerData)
-    toast.success('Recipe Deleted!')
-    navigate('/recipes')
+    setData(filerData);
+    toast.success("Recipe Deleted!");
+    navigate("/recipes");
   };
+
+  useEffect(() => {
+    console.log("SingleRecipe.jsx Mounted");
+
+    return () => {
+      console.log("SingleRecipe.jsx Unmounted");
+    };
+  }, []);
 
   return recipe ? (
     <div className="flex w-full gap-4">
